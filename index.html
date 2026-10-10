@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="min-h-full bg-slate-950 scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>ANEKA MEDIA — Visual Experience &amp; Creative Print Production</title>
+  <meta name="description" content="Aneka Media - Visual Identity and Creative Print Production landing page featuring interactive 3D logo tilt and CMYK ambient showcase.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Tailwind Configuration for CMYK Brand Accents -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandCyan: '#00AEEF',
+            brandMagenta: '#EC008C',
+            brandYellow: '#FFF200',
+            darkBase: '#07090e'
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- BEGIN: Custom CSS Styles -->
+  <style data-purpose="background-styles">
+    body {
+      background-color: #06080d;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      user-select: none;
+    }
+    .grid-overlay {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+    /* Sleek Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #06080d;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00AEEF;
+    }
+  </style>
+
+  <!-- Floating & Neon Aura Keyframes -->
+  <style data-purpose="glow-and-motion">
+    @keyframes subtleLevitate {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-14px) rotate(0.4deg);
+      }
+    }
+
+    @keyframes auraMorph {
+      0% {
+        transform: scale(0.95) rotate(0deg);
+        filter: blur(55px);
+        opacity: 0.65;
+      }
+      33% {
+        transform: scale(1.08) rotate(120deg);
+        filter: blur(75px);
+        opacity: 0.85;
+      }
+      66% {
+        transform: scale(1.02) rotate(240deg);
+        filter: blur(60px);
+        opacity: 0.7;
+      }
+      100% {
+        transform: scale(0.95) rotate(360deg);
+        filter: blur(55px);
+        opacity: 0.65;
+      }
+    }
+
+    @keyframes lightSheen {
+      0% {
+        transform: translateX(-160%) skewX(-25deg);
+      }
+      100% {
+        transform: translateX(220%) skewX(-25deg);
+      }
+    }
+
+    .levitate-element {
+      animation: subtleLevitate 6s ease-in-out infinite;
+    }
+
+    .morphing-aura {
+      animation: auraMorph 14s linear infinite;
+    }
+
+    .sheen-shimmer {
+      animation: lightSheen 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    /* 3D Perspective container */
+    .preserve-3d {
+      transform-style: preserve-3d;
+      perspective: 1200px;
+    }
+
+    .transform-gpu {
+      will-change: transform;
+      transition: transform 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+  </style>
+  <!-- END: Custom CSS Styles -->
+</head>
+<body class="w-full min-h-screen flex flex-col justify-between items-center relative text-white font-sans antialiased overflow-x-hidden overflow-y-auto">
+
+  <!-- BEGIN: Ambient Background (Fixed during scroll) -->
+  <!-- Interactive particle canvas -->
+  <canvas data-purpose="particle-dust-system" id="particle-canvas" class="fixed inset-0 pointer-events-none z-1"></canvas>
+
+  <!-- Minimal decorative matrix grid with soft radial vignette -->
+  <div class="fixed inset-0 grid-overlay opacity-30 pointer-events-none z-0" data-purpose="ambient-grid"></div>
+  <div class="fixed inset-0 pointer-events-none z-0" style="background: radial-gradient(circle at 50% 50%, transparent 20%, #06080d 85%);"></div>
+  <!-- END: Ambient Background -->
+
+
+
+  <!-- BEGIN: Hero Visual Stage -->
+  <main class="relative z-10 flex flex-col items-center justify-center flex-1 w-full px-4 my-auto py-6" data-purpose="hero-logo-stage">
+    <!-- Outer Perspective Wrap for 3D Interaction -->
+    <div class="preserve-3d relative flex items-center justify-center p-6 md:p-12 cursor-grab active:cursor-grabbing" id="tilt-container">
+      <!-- Ambient CMYK Multi-Layered Neon Aura (Pulses behind logo) -->
+      <div class="absolute -inset-8 pointer-events-none morphing-aura -z-10" data-purpose="cmyk-glow-aura">
+        <div class="w-72 h-72 md:w-96 md:h-96 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-brandCyan via-brandMagenta to-brandYellow opacity-50 mix-blend-screen filter blur-3xl"></div>
+      </div>
+
+      <!-- Secondary soft localized highlight rings -->
+      <div class="absolute w-80 h-80 rounded-full bg-brandCyan/20 blur-2xl -top-10 -left-10 pointer-events-none animate-pulse"></div>
+      <div class="absolute w-80 h-80 rounded-full bg-brandMagenta/20 blur-2xl -bottom-10 -right-10 pointer-events-none animate-pulse" style="animation-delay: 2s;"></div>
+
+      <!-- Floating Logo Card Container -->
+      <div class="levitate-element">
+        <div class="transform-gpu relative rounded-3xl p-3 sm:p-5 bg-gradient-to-b from-white/10 via-white/[0.03] to-transparent border border-white/10 backdrop-blur-sm shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(0,174,239,0.18)] group transition-all duration-300" id="tilt-card">
+          <!-- Gloss / Specular Sheen Sweep Animation -->
+          <div class="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none z-20">
+            <div class="sheen-shimmer w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+          </div>
+
+          <!-- Hero Brand Logo Image -->
+          <div class="relative z-10 flex items-center justify-center overflow-hidden rounded-2xl bg-slate-900/40 p-4 sm:p-8">
+            <img 
+              alt="Aneka Media Logo" 
+              class="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-contain transition-all duration-500 drop-shadow-[0_15px_25px_rgba(0,0,0,0.7)] group-hover:scale-105" 
+              id="hero-logo" 
+              loading="eager" 
+              src="./assets/new-logo-2.png" 
+              onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuDa3Ef-qfeaM_Vd7re3NBjwN8NWtsZz1Fc6fPHLvewMtGBtzmU4t3yH5Q9wRQru2sS1NR2QuY8kZBU8PchqwAqsKCh6ecTdbI88cXIiD7hE2-K57_ehzP0UcnD6ZENYtdVe3uLuJ5s0JfQu1k2y-e6Urf81WribNP9bvz5izTDeAtU_HQ3dax0XgPAa5KRC5kIXxwXVZEh7_llgZPirjG9WMRbrw6t8VRtYXPF9geH53maw0QDL1_LqpoSX7lNy9nj1';"
+            >
+          </div>
+
+          <!-- Subtle bottom shadow pedestal -->
+          <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/60 filter blur-xl rounded-full pointer-events-none"></div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Social Contact Dock -->
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5 z-20 relative pointer-events-auto select-none" data-purpose="social-contact-dock">
+      <a href="https://wa.me/6285155107026" target="_blank" rel="noopener noreferrer" aria-label="Contact on WhatsApp" class="group relative flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-500/30 bg-slate-900/60 backdrop-blur-md text-xs font-medium tracking-wider text-slate-300 hover:text-white hover:border-emerald-400 hover:shadow-[0_0_18px_rgba(52,211,153,0.35)] transition-all duration-300 hover:-translate-y-0.5">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+          </svg>
+        </span>
+        <span>WhatsApp</span>
+      </a>
+
+      <a href="https://www.instagram.com/aneka.media" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram" class="group relative flex items-center gap-2.5 px-4 py-2 rounded-full border border-pink-500/30 bg-slate-900/60 backdrop-blur-md text-xs font-medium tracking-wider text-slate-300 hover:text-white hover:border-brandMagenta hover:shadow-[0_0_18px_#EC008C] transition-all duration-300 hover:-translate-y-0.5">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-brandMagenta/20 text-brandMagenta group-hover:scale-110 transition-transform">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+          </svg>
+        </span>
+        <span>Instagram</span>
+      </a>
+
+      <a href="https://www.facebook.com/anekamediapro" target="_blank" rel="noopener noreferrer" aria-label="Connect on Facebook" class="group relative flex items-center gap-2.5 px-4 py-2 rounded-full border border-sky-500/30 bg-slate-900/60 backdrop-blur-md text-xs font-medium tracking-wider text-slate-300 hover:text-white hover:border-brandCyan hover:shadow-[0_0_18px_#00AEEF] transition-all duration-300 hover:-translate-y-0.5">
+        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-brandCyan/20 text-brandCyan group-hover:scale-110 transition-transform">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+          </svg>
+        </span>
+        <span>Facebook</span>
+      </a>
+    </div>
+  </main>
+  <!-- END: Hero Visual Stage -->
+
+  <!-- BEGIN: Minimalist Footer -->
+  <footer class="w-full max-w-7xl px-8 pb-8 flex justify-center items-center text-xs tracking-wider text-slate-500 relative z-20 border-t border-slate-900/60 pt-6">
+    <div class="flex items-center space-x-2">
+      <span class="font-bold tracking-widest text-slate-300">ANEKA MEDIA</span>
+      <span class="text-slate-600">•</span>
+      <span class="text-slate-400">Creative &amp; Print Production Identity</span>
+    </div>
+  </footer>
+  <!-- END: Minimalist Footer -->
+
+  <!-- BEGIN: JavaScript Logic -->
+  <!-- 3D Perspective Mouse Tracking Engine -->
+  <script data-purpose="3d-tilt-interaction">
+    (function initTilt() {
+      const container = document.getElementById('tilt-container');
+      const card = document.getElementById('tilt-card');
+      const logo = document.getElementById('hero-logo');
+
+      if (!container || !card) return;
+
+      let boundingBox = container.getBoundingClientRect();
+      let isHovered = false;
+
+      function updateBounds() {
+        boundingBox = container.getBoundingClientRect();
+      }
+
+      window.addEventListener('resize', updateBounds);
+      window.addEventListener('scroll', updateBounds);
+
+      container.addEventListener('mouseenter', () => {
+        isHovered = true;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        // Calculate cursor offset relative to window center (-1 to 1)
+        const deltaX = (clientX - centerX) / centerX;
+        const deltaY = (clientY - centerY) / centerY;
+
+        // Dynamic 3D rotation angles
+        const maxRotation = 22; // max tilt degrees
+        const rotateY = deltaX * maxRotation;
+        const rotateX = -deltaY * maxRotation;
+
+        // Logo parallax translation depth
+        const parallaxTranslateX = deltaX * 12;
+        const parallaxTranslateY = deltaY * 12;
+
+        card.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+        if (logo) {
+          logo.style.transform = `translate3d(${parallaxTranslateX.toFixed(1)}px, ${parallaxTranslateY.toFixed(1)}px, 30px)`;
+        }
+      });
+
+      // Smooth restoration to natural position on mouse leave
+      container.addEventListener('mouseleave', () => {
+        isHovered = false;
+        card.style.transform = `rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        if (logo) {
+          logo.style.transform = `translate3d(0px, 0px, 0px)`;
+        }
+      });
+
+      // Tactile click shockwave effect
+      container.addEventListener('mousedown', () => {
+        card.style.transform += ` scale3d(0.96, 0.96, 0.96)`;
+      });
+
+      container.addEventListener('mouseup', () => {
+        card.style.transform = card.style.transform.replace(' scale3d(0.96, 0.96, 0.96)', '');
+      });
+    })();
+  </script>
+
+  <!-- Ambient Light Dust Particle Canvas -->
+  <script data-purpose="ambient-dust-canvas">
+    (function initDustParticles() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const colors = ['#00AEEF', '#EC008C', '#FFF200', '#ffffff'];
+      const particlesCount = 42;
+      const particles = [];
+
+      for (let i = 0; i < particlesCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.6 + 0.4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: -Math.random() * 0.45 - 0.1,
+          alpha: Math.random() * 0.6 + 0.2
+        });
+      }
+
+      function render() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.y < -10) {
+            p.y = height + 10;
+            p.x = Math.random() * width;
+          }
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.alpha;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = p.color;
+          ctx.fill();
+        }
+
+        requestAnimationFrame(render);
+      }
+
+      render();
+    })();
+  </script>
+  <!-- END: JavaScript Logic -->
+</body>
+</html>
